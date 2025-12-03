@@ -123,6 +123,9 @@
   <data name="EXPENSES_CANNOT_FOR_THE_FUTURE" xml:space="preserve">
     <value>Les dépenses ne peuvent pas être prévues pour l'avenir.</value>
   </data>
+  <data name="EXPENSE_NOT_FOUND" xml:space="preserve">
+    <value>Dépense non trouvée</value>
+  </data>
   <data name="PAYMENT_TYPE_INVALID" xml:space="preserve">
     <value>Type de paiement invalide</value>
   </data>
