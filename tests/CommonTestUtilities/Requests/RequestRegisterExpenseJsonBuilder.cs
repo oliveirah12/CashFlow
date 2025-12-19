@@ -7,10 +7,10 @@ namespace CommonTestUtilities.Requests;
 
 public class RequestRegisterExpenseJsonBuilder
 {
-    public static RequestRegisterExpenseJson Build()
+    public static RequestExpenseJson Build()
     {
 
-        return new Faker<RequestRegisterExpenseJson>()
+        return new Faker<RequestExpenseJson>()
             .RuleFor(r => r.Title, f => f.Lorem.Sentence(3))
             .RuleFor(r => r.Description, f => f.Lorem.Paragraph())
             .RuleFor(r => r.Amount, f => f.Finance.Amount(min: 10, max: 1000))
