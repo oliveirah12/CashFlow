@@ -3,6 +3,7 @@ using AutoMapper;
 using CashFlow.Communication.Requests;
 using CashFlow.Domain.Repositories;
 using CashFlow.Domain.Repositories.Expenses;
+using CashFlow.Exception;
 using CashFlow.Exception.ExceptionsBase;
 
 namespace CashFlow.Application.UseCases.Expenses.UpdateById;
@@ -23,7 +24,16 @@ public class UpdateExpenseByIdUseCase : IUpdateExpenseByIdUseCase
     {
         Validate(request);
 
-        _repository.Update(request);
+        var expense = await _repository.GetById(id);
+
+        if (expense is null)
+        {
+            throw new NotFoundException(ResourceErrorMessages.EXPENSE_NOT_FOUND);
+        }
+
+        _mapper.Map(request, expense);
+
+        _repository.Update(expense);
 
         await _unitOfWork.Commit();
     }
