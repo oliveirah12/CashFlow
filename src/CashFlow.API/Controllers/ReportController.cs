@@ -1,4 +1,5 @@
-﻿using CashFlow.Application.UseCases.Expenses.Reports.Excel;
+﻿using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByCustomDates;
+using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByMonth;
 using CashFlow.Communication.Requests;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -21,6 +22,24 @@ public class ReportController : ControllerBase
         if (file.Length > 0)
         {
             return File(file, MediaTypeNames.Application.Octet, "report.xlsx");
+        }
+
+        return NoContent();
+    }
+
+    [HttpGet("excelCustomDates")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> GetExcelCustomDates(
+    [FromServices] IGenerateExpensesReportExcelByCustomDatesUseCase useCase,
+    [FromHeader] DateOnly startDate,
+    [FromHeader] DateOnly endDate)
+    {
+        byte[] file = await useCase.Execute(startDate, endDate);
+
+        if (file.Length > 0)
+        {
+            return File(file, MediaTypeNames.Application.Octet, "reportByDate.xlsx");
         }
 
         return NoContent();
