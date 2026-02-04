@@ -1,6 +1,7 @@
 ﻿using CashFlow.Communication.Reports;
 using CashFlow.Domain.Repositories.Expenses;
 using ClosedXML.Excel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByMonth;
 public class GenerateExpensesReportExcelUseCase : IGenerateExpensesReportExcelUseCase
@@ -12,9 +13,14 @@ public class GenerateExpensesReportExcelUseCase : IGenerateExpensesReportExcelUs
         _repository = repository;
     }
 
-    public async Task<byte[]> Execute(DateOnly month)
+    public async Task<byte[]> Execute(DateOnly date)
     {
-        var expenses = await _repository.FilterByMonth(month);
+        var startDate = new DateOnly(year: date.Year, month: date.Month, day: 1);
+        var daysInMonth = DateTime.DaysInMonth(date.Year, date.Month);
+
+        var endDate = new DateOnly(year: date.Year, month: date.Month, day: daysInMonth);
+
+        var expenses = await _repository.FilterByDates(startDate, endDate);
         if(expenses.Count == 0)
         {
             return [];
@@ -26,7 +32,7 @@ public class GenerateExpensesReportExcelUseCase : IGenerateExpensesReportExcelUs
         workbook.Style.Font.FontSize = 12;
         workbook.Style.Font.FontName = "Times New Roman"; 
 
-        var worksheet = workbook.Worksheets.Add(month.ToString("Y"));
+        var worksheet = workbook.Worksheets.Add(date.ToString("Y"));
 
         InsertHeader(worksheet);
 

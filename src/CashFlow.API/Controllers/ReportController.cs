@@ -1,6 +1,5 @@
 ﻿using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByCustomDates;
 using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByMonth;
-using CashFlow.Communication.Requests;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
