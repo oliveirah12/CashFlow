@@ -20,7 +20,7 @@ public class GenerateExpensesReportExcelByCustomDatesUseCase : IGenerateExpenses
             return [];
         }
 
-        var workbook = new XLWorkbook();
+        using var workbook = new XLWorkbook();
 
         workbook.Author = "Matheus Oliveira";
         workbook.Style.Font.FontSize = 12;
@@ -29,6 +29,22 @@ public class GenerateExpensesReportExcelByCustomDatesUseCase : IGenerateExpenses
         var worksheet = workbook.Worksheets.Add($"{startDate.ToString().Replace('/', '-')} a {endDate.ToString().Replace('/', '-')}");
 
         InsertHeader(worksheet);
+
+        foreach (var expense in expenses)
+        {
+            var currentRow = worksheet.LastRowUsed().RowNumber() + 1;
+            worksheet.Cell($"A{currentRow}").Value = expense.Title;
+            worksheet.Cell($"B{currentRow}").Value = expense.Date.ToString("dd/MM/yyyy");
+            worksheet.Cell($"C{currentRow}").Value = Utils.ConvertPaymentType(expense.PaymentType);
+
+            worksheet.Cell($"D{currentRow}").Value = expense.Amount;
+            worksheet.Cell($"D{currentRow}").Style.NumberFormat.Format = Utils.FormatAmount(expense.Amount);
+
+            worksheet.Cell($"E{currentRow}").Value = expense.Description;
+
+        }
+
+        worksheet.Columns().AdjustToContents();
 
         var file = new MemoryStream();
 

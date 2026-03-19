@@ -1,7 +1,6 @@
 ﻿using CashFlow.Communication.Reports;
 using CashFlow.Domain.Repositories.Expenses;
 using ClosedXML.Excel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByMonth;
 public class GenerateExpensesReportExcelUseCase : IGenerateExpensesReportExcelUseCase
@@ -26,7 +25,7 @@ public class GenerateExpensesReportExcelUseCase : IGenerateExpensesReportExcelUs
             return [];
         }
 
-        var workbook = new XLWorkbook();
+        using var workbook = new XLWorkbook();
 
         workbook.Author = "Matheus Oliveira";
         workbook.Style.Font.FontSize = 12;
@@ -35,6 +34,23 @@ public class GenerateExpensesReportExcelUseCase : IGenerateExpensesReportExcelUs
         var worksheet = workbook.Worksheets.Add(date.ToString("Y"));
 
         InsertHeader(worksheet);
+
+        foreach (var expense in expenses)
+        {
+            var currentRow = worksheet.LastRowUsed().RowNumber() + 1;
+            worksheet.Cell($"A{currentRow}").Value = expense.Title;
+            worksheet.Cell($"B{currentRow}").Value = expense.Date.ToString("dd/MM/yyyy");
+            worksheet.Cell($"C{currentRow}").Value = Utils.ConvertPaymentType(expense.PaymentType);
+
+            worksheet.Cell($"D{currentRow}").Value = expense.Amount;
+            worksheet.Cell($"D{currentRow}").Style.NumberFormat.Format = Utils.FormatAmount(expense.Amount);
+
+            worksheet.Cell($"E{currentRow}").Value = expense.Description;
+
+        }
+
+        worksheet.Columns().AdjustToContents();
+
 
         var file = new MemoryStream();
 

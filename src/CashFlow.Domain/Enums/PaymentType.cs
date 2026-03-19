@@ -6,5 +6,5 @@ public enum PaymentType
     Cash = 0,
     CreditCard = 1,
     DebitCard = 2,
-    Pìx = 3,
+    Pix = 3,
 }
