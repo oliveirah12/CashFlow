@@ -1,13 +1,6 @@
 ﻿using CashFlow.Communication.Reports;
 using CashFlow.Domain.Repositories.Expenses;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Bibliography;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByCustomDates;
 public class GenerateExpensesReportExcelByCustomDatesUseCase : IGenerateExpensesReportExcelByCustomDatesUseCase
