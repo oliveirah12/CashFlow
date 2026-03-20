@@ -2,7 +2,7 @@
 
 namespace CashFlow.Application.UseCases.Expenses.Reports.Pdf.Colors;
 
-public class ColorsHelper
+public static class ColorsHelper
 {
     public static readonly Color RED_DARK = Color.FromArgb(223, 52, 12);
     public static readonly Color RED_LIGHT = Color.FromArgb(245, 194, 182);
