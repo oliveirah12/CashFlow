@@ -5,6 +5,7 @@ using CashFlow.Application.UseCases.Expenses.GetById;
 using CashFlow.Application.UseCases.Expenses.Register;
 using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByCustomDates;
 using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByMonth;
+using CashFlow.Application.UseCases.Expenses.Reports.Pdf.GetByCustomDates;
 using CashFlow.Application.UseCases.Expenses.Reports.Pdf.GetByMonth;
 using CashFlow.Application.UseCases.Expenses.UpdateById;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGenerateExpensesReportExcelUseCase, GenerateExpensesReportExcelUseCase>();
         services.AddScoped<IGenerateExpensesReportExcelByCustomDatesUseCase, GenerateExpensesReportExcelByCustomDatesUseCase>();
         services.AddScoped<IGenerateExpensesReportPdfUseCase, GenerateExpensesReportPdfUseCase>();
+        services.AddScoped<IGenerateExpensesReportPdfByCustomDatesUseCase, GenerateExpensesReportPdfByCustomDatesUseCase>();
     }
 
 }

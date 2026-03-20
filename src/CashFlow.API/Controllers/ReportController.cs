@@ -1,5 +1,6 @@
 ﻿using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByCustomDates;
 using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByMonth;
+using CashFlow.Application.UseCases.Expenses.Reports.Pdf.GetByCustomDates;
 using CashFlow.Application.UseCases.Expenses.Reports.Pdf.GetByMonth;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -53,6 +54,22 @@ public class ReportController : ControllerBase
         [FromHeader] DateOnly month)
     {
         byte[] file = await useCase.Execute(month);
+        if (file.Length > 0)
+        {
+            return File(file, MediaTypeNames.Application.Pdf, "ReportByMonth.pdf");
+        }
+        return NoContent();
+    }
+
+    [HttpGet("pdfByCustomDates")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> GetPdfByCustomDates(
+    [FromServices] IGenerateExpensesReportPdfByCustomDatesUseCase useCase,
+    [FromHeader] DateOnly startDate,
+    [FromHeader] DateOnly endDate)
+    {
+        byte[] file = await useCase.Execute(startDate, endDate);
         if (file.Length > 0)
         {
             return File(file, MediaTypeNames.Application.Pdf, "ReportByMonth.pdf");
