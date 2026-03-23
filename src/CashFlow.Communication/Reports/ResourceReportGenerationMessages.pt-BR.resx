@@ -142,9 +142,9 @@
     <value>Pix</value>
   </data>
   <data name="TITLE" xml:space="preserve">
-    <value>Título</value>
+    <value>Relatório de Gastos por Data</value>
   </data>
-  <data name="TOTAL_SPENT_IN" xml:space="preserve">
-    <value>Total Gasto em {0}</value>
+  <data name="TOTAL_SPENT_BETWEEN" xml:space="preserve">
+    <value>Total Gasto entre {0} e {1}</value>
   </data>
 </root>

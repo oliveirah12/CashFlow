@@ -21,7 +21,7 @@ public class GenerateExpensesReportPdfByCustomDatesUseCase : IGenerateExpensesRe
         {
             return [];
         }
-        return [];
+        return PdfReportConstructor.StartCreateDocument(expenses, startDate, endDate);
 
     }
 }

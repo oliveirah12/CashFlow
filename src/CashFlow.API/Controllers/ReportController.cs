@@ -72,7 +72,7 @@ public class ReportController : ControllerBase
         byte[] file = await useCase.Execute(startDate, endDate);
         if (file.Length > 0)
         {
-            return File(file, MediaTypeNames.Application.Pdf, "ReportByMonth.pdf");
+            return File(file, MediaTypeNames.Application.Pdf, "ReportByCustomDates.pdf");
         }
         return NoContent();
     }

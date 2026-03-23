@@ -15,7 +15,14 @@ public class CultureMiddleware
     {
         var supportedLanguages = CultureInfo.GetCultures(CultureTypes.AllCultures).ToList();
 
-        var requestedCulture = context.Request.Headers.AcceptLanguage.FirstOrDefault();
+        var header = context.Request.Headers.AcceptLanguage.FirstOrDefault();
+
+        var requestedCulture = header?
+            .Split(',')
+            .FirstOrDefault()?
+            .Split(';')
+            .FirstOrDefault()
+            ?.Trim();
 
 
         var cultureInfo = new CultureInfo("en");

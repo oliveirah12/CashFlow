@@ -142,9 +142,9 @@
     <value>Pix</value>
   </data>
   <data name="TITLE" xml:space="preserve">
-    <value>Title</value>
+    <value>Expenses by Date Report</value>
   </data>
-  <data name="TOTAL_SPENT_IN" xml:space="preserve">
-    <value>Total Spent in {0}</value>
+  <data name="TOTAL_SPENT_BETWEEN" xml:space="preserve">
+    <value>Total Spent Between {0} and {1}</value>
   </data>
 </root>

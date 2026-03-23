@@ -1,11 +1,11 @@
 ﻿using CashFlow.Communication.Reports;
 using CashFlow.Domain.Enums;
 
-namespace CashFlow.Application.UseCases.Expenses.Reports.Excel;
+namespace CashFlow.Domain.Extensions;
 
-public static class Utils
+public static class PaymentTypeExtensions
 {
-    public static string ConvertPaymentType(PaymentType paymentType)
+    public static string ConvertPaymentTypeToString(this PaymentType paymentType)
     {
         return paymentType switch
         {

@@ -19,7 +19,7 @@ namespace CashFlow.Communication.Reports {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ResourceReportGenerationMessages {
@@ -133,7 +133,7 @@ namespace CashFlow.Communication.Reports {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Title.
+        ///   Looks up a localized string similar to Expenses by Date Report.
         /// </summary>
         public static string TITLE {
             get {
@@ -142,11 +142,11 @@ namespace CashFlow.Communication.Reports {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total Spent in {0}.
+        ///   Looks up a localized string similar to Total Spent Between {0} and {1}.
         /// </summary>
-        public static string TOTAL_SPENT_IN {
+        public static string TOTAL_SPENT_BETWEEN {
             get {
-                return ResourceManager.GetString("TOTAL_SPENT_IN", resourceCulture);
+                return ResourceManager.GetString("TOTAL_SPENT_BETWEEN", resourceCulture);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using CashFlow.Communication.Reports;
+using CashFlow.Domain.Extensions;
 using CashFlow.Domain.Repositories.Expenses;
 using ClosedXML.Excel;
 
@@ -35,10 +36,10 @@ public class GenerateExpensesReportExcelByCustomDatesUseCase : IGenerateExpenses
             var currentRow = worksheet.LastRowUsed().RowNumber() + 1;
             worksheet.Cell($"A{currentRow}").Value = expense.Title;
             worksheet.Cell($"B{currentRow}").Value = expense.Date.ToString("dd/MM/yyyy");
-            worksheet.Cell($"C{currentRow}").Value = Utils.ConvertPaymentType(expense.PaymentType);
+            worksheet.Cell($"C{currentRow}").Value = expense.PaymentType.ConvertPaymentTypeToString();
 
             worksheet.Cell($"D{currentRow}").Value = expense.Amount;
-            worksheet.Cell($"D{currentRow}").Style.NumberFormat.Format = Utils.FormatAmount(expense.Amount);
+            worksheet.Cell($"D{currentRow}").Style.NumberFormat.Format = PaymentTypeExtensions.FormatAmount(expense.Amount);
 
             worksheet.Cell($"E{currentRow}").Value = expense.Description;
 
