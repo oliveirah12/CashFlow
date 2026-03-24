@@ -7,6 +7,8 @@ Pacotes utilizados:
 - **Shoudly**: Testes de unidade;
 - **EntityFramework**: ORM para interações com Banco de Dados.
 
+![hero-image]
+
 ### Features
 
 - **Domain-Drive Design (DDD)**: Facilita manutenção do domínio da Aplicação;
@@ -19,8 +21,8 @@ Siga os passos para rodar a aplicação
 
 ### Requisitos
 - Visual Studio 2022+
-- Windows 10+ ou Linux/MacOS com [.NET SDK](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0)
-- [MySQL Server](https://www.mysql.com/downloads/)
+- Windows 10+ ou Linux/MacOS com [.NET SDK][dot-net-sdk]
+- [MySQL Server][mysql]
 
 ### Instalação
 1. Clonar o Repositório:
@@ -29,3 +31,24 @@ Siga os passos para rodar a aplicação
    ```
 3. Preencher Infos no `appsettings.Development.json`
 4. Executar 
+
+
+
+
+
+
+
+
+
+<!-- Links -->
+[dot-net-sdk]: https://dotnet.microsoft.com/pt-br/download/dotnet/8.0
+[mysql]: https://www.mysql.com/downloads/
+
+<!-- Images -->
+[hero-image]: images/heroimage.png
+
+
+
+
+
+
