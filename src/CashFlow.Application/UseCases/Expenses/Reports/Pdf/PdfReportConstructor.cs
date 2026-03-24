@@ -61,10 +61,7 @@ public static class PdfReportConstructor
             row.Cells[3].VerticalAlignment = VerticalAlignment.Center;
 
             /*Terceira Linha */
-            row = table.AddRow();
-            row.Height = LINE_HEIGHT_ROW_EXPENSE_TABLE;
-
-            AddExpenseDescription(row.Cells[0], expense.Description!);
+            AddExpenseDescription(table, row, expense.Description!);
 
             AddWhiteSpace(table);
 
@@ -234,23 +231,29 @@ public static class PdfReportConstructor
         return table;
     }
 
-    public static void AddExpenseDescription(Cell cell, string description)
+    public static void AddExpenseDescription(Table table, Row row,  string description)
     {
         if (string.IsNullOrEmpty(description)){
             return;
         }
 
-        cell.AddParagraph(description);
-        cell.Format.Font = new Font
+        var descriptionRow = table.AddRow();
+        descriptionRow.Height = LINE_HEIGHT_ROW_EXPENSE_TABLE;
+
+        descriptionRow.Cells[0].AddParagraph(description);
+        descriptionRow.Cells[0].Format.Font = new Font
         {
-            Name = FontHelper.RALEWAY_REGULAR,
+            Name = FontHelper.WORKSANS_REGULAR,
             Size = 10,
             Color = ColorsHelper.BLACK
         };
-        cell.Shading.Color = ColorsHelper.WHITE;
-        cell.VerticalAlignment = VerticalAlignment.Center;
-        cell.Format.LeftIndent = 20;
-        cell.MergeRight = 3;
+        descriptionRow.Cells[0].Shading.Color = ColorsHelper.GREEN_LIGHT;
+        descriptionRow.Cells[0].VerticalAlignment = VerticalAlignment.Center;
+        descriptionRow.Cells[0].Format.LeftIndent = 20;
+        descriptionRow.Cells[0].MergeRight = 2;
+
+        row.Cells[3].MergeDown = 1;
+
 
     }
 }
