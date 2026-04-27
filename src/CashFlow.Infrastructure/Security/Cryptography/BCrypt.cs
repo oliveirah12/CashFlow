@@ -7,6 +7,13 @@ public class BCrypt : IPasswordEncrypter
 {
     public string Encrypt(string password)
     {
-        return BC.HashPassword(password);
+        string passwordHash = BC.HashPassword(password);
+        
+        return passwordHash;
+    }
+
+    public bool Verify(string password, string passwordHash)
+    {
+        return BC.Verify(password, passwordHash);
     }
 }

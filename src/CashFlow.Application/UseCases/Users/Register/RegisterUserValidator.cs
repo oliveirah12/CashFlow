@@ -1,5 +1,6 @@
 ﻿using CashFlow.Communication.Requests;
 using CashFlow.Exception;
+using CashFlow.Exception.ExceptionsBase;
 using FluentValidation;
 
 namespace CashFlow.Application.UseCases.Users.Register;

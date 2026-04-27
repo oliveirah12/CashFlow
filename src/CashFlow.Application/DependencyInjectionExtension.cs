@@ -8,6 +8,7 @@ using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByMonth;
 using CashFlow.Application.UseCases.Expenses.Reports.Pdf.GetByCustomDates;
 using CashFlow.Application.UseCases.Expenses.Reports.Pdf.GetByMonth;
 using CashFlow.Application.UseCases.Expenses.UpdateById;
+using CashFlow.Application.UseCases.Login;
 using CashFlow.Application.UseCases.Users.Register;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -39,6 +40,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGenerateExpensesReportPdfUseCase, GenerateExpensesReportPdfUseCase>();
         services.AddScoped<IGenerateExpensesReportPdfByCustomDatesUseCase, GenerateExpensesReportPdfByCustomDatesUseCase>();
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
+        services.AddScoped<IDoLoginUseCase, DoLoginUseCase>();
     }
 
 }

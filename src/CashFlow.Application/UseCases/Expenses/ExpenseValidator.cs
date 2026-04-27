@@ -1,6 +1,7 @@
 ﻿using CashFlow.Communication.Enums;
 using CashFlow.Communication.Requests;
 using CashFlow.Exception;
+using CashFlow.Exception.ExceptionsBase;
 using FluentValidation;
 
 namespace CashFlow.Application.UseCases.Expenses;

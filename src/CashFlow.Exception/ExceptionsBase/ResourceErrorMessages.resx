@@ -118,36 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AMOUNT_MUST_BE_GREATER_THAN_ZERO" xml:space="preserve">
-    <value>Valor deve ser maior que zero</value>
+    <value>Amount must be greater than zero</value>
   </data>
   <data name="EMAIL_ALREADY_REGISTERED" xml:space="preserve">
-    <value>Email já registrado</value>
+    <value>Email Already Registered</value>
   </data>
   <data name="EMAIL_EMPTY" xml:space="preserve">
-    <value>Email vazio</value>
+    <value>Empty Email</value>
   </data>
   <data name="EMAIL_INVALID" xml:space="preserve">
-    <value>Email Inválido</value>
+    <value>Invalid Email</value>
   </data>
   <data name="EXPENSES_CANNOT_FOR_THE_FUTURE" xml:space="preserve">
-    <value>Despesas não podem ser feitas para o futuro</value>
+    <value>Expenses cannot be for the future</value>
   </data>
   <data name="EXPENSE_NOT_FOUND" xml:space="preserve">
-    <value>Despesa não encontrada</value>
+    <value>Expense not Found</value>
   </data>
   <data name="NAME_EMPTY" xml:space="preserve">
-    <value>Nome vazio</value>
+    <value>Empty Name</value>
   </data>
   <data name="PASSWORD_INVALID" xml:space="preserve">
-    <value>Senha inválida</value>
+    <value>Invalid Password</value>
   </data>
   <data name="PAYMENT_TYPE_INVALID" xml:space="preserve">
-    <value>Tipo de pagamento inválido</value>
+    <value>Invalid payment type</value>
   </data>
   <data name="TITLE_REQUIRED" xml:space="preserve">
-    <value>Título requerido</value>
+    <value>Title Required</value>
   </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
-    <value>Erro desconhecido</value>
+    <value>Unknown Error</value>
+  </data>
+  <data name="EMAIL_OR_PASSWORD_INVALID" xml:space="preserve">
+    <value>Invalid Email or/and Password</value>
   </data>
 </root>
