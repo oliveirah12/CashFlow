@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using CashFlow.Communication.Requests;
 using CashFlow.Communication.Responses;
+using CashFlow.Domain.Repositories;
 using CashFlow.Domain.Repositories.Users;
 using CashFlow.Domain.Security.Cryptography;
 using CashFlow.Exception;
 using CashFlow.Exception.ExceptionsBase;
+using FluentValidation.Results;
 
 namespace CashFlow.Application.UseCases.Users.Register;
 
@@ -13,11 +15,21 @@ public class RegisterUserUseCase : IRegisterUserUseCase
     private readonly IMapper _mapper;
     private readonly IPasswordEncrypter _passwordEncrypter;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository;
+    private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public RegisterUserUseCase(IMapper mapper, IPasswordEncrypter passwordEncrypter)
+    public RegisterUserUseCase(
+        IMapper mapper, 
+        IPasswordEncrypter passwordEncrypter, 
+        IUserWriteOnlyRepository userWriteOnlyRepository, 
+        IUserReadOnlyRepository userReadOnlyRepository,
+        IUnitOfWork unitOfWork)
     {
         _mapper = mapper;
         _passwordEncrypter = passwordEncrypter;
+        _userWriteOnlyRepository = userWriteOnlyRepository;
+        _userReadOnlyRepository = userReadOnlyRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ResponseRegisteredUserJson> Execute(RequestRegisterUserJson request)
@@ -26,6 +38,11 @@ public class RegisterUserUseCase : IRegisterUserUseCase
 
         var user = _mapper.Map<Domain.Entities.User>(request);
         user.Password = _passwordEncrypter.Encrypt(request.Password);
+        user.UserIdentifier = Guid.NewGuid();
+
+        await _userWriteOnlyRepository.Add(user);
+
+        await _unitOfWork.Commit();
 
         return new ResponseRegisteredUserJson
         {
@@ -40,7 +57,7 @@ public class RegisterUserUseCase : IRegisterUserUseCase
 
         if(emailExist)
         {
-            result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceErrorMessages.EMAIL_ALREADY_REGISTERED));
+            result.Errors.Add(new ValidationFailure(string.Empty, ResourceErrorMessages.EMAIL_ALREADY_REGISTERED));
         }
 
         if (result.IsValid == false)
