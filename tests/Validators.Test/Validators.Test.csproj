@@ -28,4 +28,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Users/" />
+    <Folder Include="Users/Register/" />
+  </ItemGroup>
+
 </Project>
