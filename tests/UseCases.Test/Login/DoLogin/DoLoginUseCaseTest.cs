@@ -1,10 +1,8 @@
-using System;
 using CashFlow.Application.UseCases.Login;
 using CashFlow.Domain.Entities;
 using CashFlow.Exception.ExceptionsBase;
 using CommonTestUtilities.Cryptography;
 using CommonTestUtilities.Entities;
-using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
 using Shouldly;
