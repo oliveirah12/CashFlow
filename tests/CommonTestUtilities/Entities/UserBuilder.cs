@@ -16,8 +16,7 @@ public class UserBuilder
             .RuleFor(u => u.Name, f => f.Name.FirstName())
             .RuleFor(u => u.Email, (f, user) => f.Internet.Email(user.Name))
             .RuleFor(u => u.Password, (_, user) => passwordEncripter.Encrypt(user.Password))
-            .RuleFor(u => u.UserIdentifier, _ => Guid.NewGuid())
-            .Generate();
+            .RuleFor(u => u.UserIdentifier, _ => Guid.NewGuid());
 
         return user;
     }

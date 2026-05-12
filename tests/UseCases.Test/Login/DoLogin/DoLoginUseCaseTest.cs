@@ -16,7 +16,7 @@ public class DoLoginUseCaseTest
     {
         //Arrange
         var user = UserBuilder.Build();
-        var request = RequestDoLoginJsonBuilder.Build();
+        var request = RequestLoginJsonBuilder.Build();
         request.Email = user.Email;
 
         var useCase = CreateUseCase(user, request.Password);
@@ -35,7 +35,7 @@ public class DoLoginUseCaseTest
     {
         //Arrange
         var user = UserBuilder.Build();
-        var request = RequestDoLoginJsonBuilder.Build();
+        var request = RequestLoginJsonBuilder.Build();
         var useCase = CreateUseCase(user, request.Password);
 
         //Act
@@ -55,7 +55,7 @@ public class DoLoginUseCaseTest
     {
         //Arrange
         var user = UserBuilder.Build();
-        var request = RequestDoLoginJsonBuilder.Build();
+        var request = RequestLoginJsonBuilder.Build();
         request.Email = user.Email;
         var useCase = CreateUseCase(user);
 

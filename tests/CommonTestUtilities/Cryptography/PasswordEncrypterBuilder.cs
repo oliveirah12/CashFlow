@@ -22,7 +22,7 @@ public class PasswordEncrypterBuilder
         if(string.IsNullOrWhiteSpace(password) == false)
         {
             _mock.Setup(passwordEncrypter => 
-                passwordEncrypter.Verify(password, It.IsAny<string>())).Returns(false);
+                passwordEncrypter.Verify(password, It.IsAny<string>())).Returns(true);
             return this;
         }
 
