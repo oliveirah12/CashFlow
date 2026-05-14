@@ -1,4 +1,7 @@
-﻿using CashFlow.Infrastructure.DataAccess;
+﻿using CashFlow.Domain.Entities;
+using CashFlow.Domain.Security.Cryptography;
+using CashFlow.Infrastructure.DataAccess;
+using CommonTestUtilities.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +11,9 @@ namespace WebApi.Test;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
+
+    private CashFlow.Domain.Entities.User _user { get; set; }
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Test")
@@ -15,11 +21,29 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             {
                 var provider = services.AddEntityFrameworkInMemoryDatabase().BuildServiceProvider();
 
-                services.AddDbContext<CashFlowDbContext>(config => 
+                services.AddDbContext<CashFlowDbContext>(config =>
                 {
                     config.UseInMemoryDatabase("InMemoryDbForTesting");
                     config.UseInternalServiceProvider(provider);
                 });
+
+                var scope = services.BuildServiceProvider().CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<CashFlowDbContext>();
+                var encrypter = scope.ServiceProvider.GetRequiredService<IPasswordEncrypter>();
+
+                StartDataBase(dbContext, encrypter);
             });
+    }
+
+
+    public string GetEmail() => _user.Email;
+    public string GetName() => _user.Name;
+
+    private void StartDataBase(CashFlowDbContext dbContext, IPasswordEncrypter encrypter)
+    {
+        _user = UserBuilder.Build();
+        _user.Password = encrypter.Encrypt(_user.Password);
+        dbContext.Users.Add(_user);
+        dbContext.SaveChanges();
     }
 }
