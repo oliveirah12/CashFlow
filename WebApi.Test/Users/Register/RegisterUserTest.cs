@@ -1,4 +1,5 @@
-﻿using CommonTestUtilities.Requests;
+﻿using CashFlow.Exception.ExceptionsBase;
+using CommonTestUtilities.Requests;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Shouldly;
 using System.Net;
@@ -31,4 +32,26 @@ public class RegisterUserTest : IClassFixture<CustomWebApplicationFactory>
         response.RootElement.GetProperty("name").GetString().ShouldBe(request.Name);
         response.RootElement.GetProperty("token").GetString().ShouldNotBeNullOrEmpty();
     }
+
+    [Fact]
+    public async Task Error_Empty_Name()
+    {
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Name = string.Empty;
+
+        var result = await _httpClient.PostAsJsonAsync(METHOD, request);
+
+        result.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        var body = await result.Content.ReadAsStreamAsync();
+
+        var response = await JsonDocument.ParseAsync(body);
+
+        var erros = response.RootElement.GetProperty("errorMessages").EnumerateArray();
+
+        erros.ShouldSatisfyAllConditions(
+            _ => erros.ShouldContain(e => e.GetString()!.Equals(ResourceErrorMessages.NAME_EMPTY)),
+            _ => erros.Count().ShouldBe(1)
+        );
+    }
+
 }
