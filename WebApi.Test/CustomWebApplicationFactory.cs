@@ -13,6 +13,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
 
     private CashFlow.Domain.Entities.User _user { get; set; }
+    private string _password;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -38,10 +39,12 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     public string GetEmail() => _user.Email;
     public string GetName() => _user.Name;
+    public string GetPassword() => _password;
 
     private void StartDataBase(CashFlowDbContext dbContext, IPasswordEncrypter encrypter)
     {
         _user = UserBuilder.Build();
+        _password = _user.Password;
         _user.Password = encrypter.Encrypt(_user.Password);
         dbContext.Users.Add(_user);
         dbContext.SaveChanges();
