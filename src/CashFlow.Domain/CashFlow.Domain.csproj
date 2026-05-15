@@ -10,8 +10,4 @@
     <ProjectReference Include="..\CashFlow.Communication\CashFlow.Communication.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Security/tokens/" />
-  </ItemGroup>
-
 </Project>
