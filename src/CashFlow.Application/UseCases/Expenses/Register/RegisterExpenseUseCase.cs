@@ -33,14 +33,15 @@ public class RegisterExpenseUseCase : IRegisterExpenseUseCase
     {
         Validate(request);
 
-        var loggedUser = _loggedUser
+        var loggedUser = await _loggedUser.Get();
 
-        var entity = _mapper.Map<Expense>(request);
+        var expense = _mapper.Map<Expense>(request);
+        expense.UserId = loggedUser.Id;
 
-        await _repository.Add(entity);
+        await _repository.Add(expense);
         await _unitOfWork.Commit();
 
-        return _mapper.Map<ResponseRegisteredExpenseJson>(entity);
+        return _mapper.Map<ResponseRegisteredExpenseJson>(expense);
     }
 
     private void Validate(RequestExpenseJson request)
