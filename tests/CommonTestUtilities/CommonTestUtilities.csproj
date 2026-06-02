@@ -22,7 +22,6 @@
     <Folder Include="Cryptography/" />
     <Folder Include="Entities/" />
     <Folder Include="Mapper/" />
-    <Folder Include="Repositories/" />
   </ItemGroup>
 
 </Project>
