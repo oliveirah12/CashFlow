@@ -17,33 +17,28 @@ internal class ExpensesRepository : IExpensesReadOnlyRepository, IExpensesWriteO
         await _dbContext.Expenses.AddAsync(expense);
     }
 
-    public async Task<bool> Delete(long id)
+    public async Task Delete(long id)
     {
-        var result = await _dbContext.Expenses.FirstOrDefaultAsync(e => e.Id == id);
+        var result = await _dbContext.Expenses.FindAsync(id);
 
-
-        if(result is null)
+        if (result != null)
         {
-            return false;
+            _dbContext.Expenses.Remove(result);
         }
-
-        _dbContext.Expenses.Remove(result);
-
-        return true;
     }
 
-    public async Task<List<Expense>> GetAll()
+    public async Task<List<Expense>> GetAll(User user)
     {
-        return await _dbContext.Expenses.AsNoTracking().ToListAsync();
+        return await _dbContext.Expenses.AsNoTracking().Where(e => e.UserId == user.Id).ToListAsync();
     }
 
-    async Task<Expense?> IExpensesReadOnlyRepository.GetById(long id)
+    async Task<Expense?> IExpensesReadOnlyRepository.GetById(User user, long id)
     {
         return await _dbContext.Expenses.AsNoTracking()
-            .FirstOrDefaultAsync(e => e.Id == id);
+            .FirstOrDefaultAsync(e => e.Id == id && e.UserId == user.Id);
     }
 
-    async Task<Expense?> IExpensesUpdateOnlyRepository.GetById(Domain.Entities.User user, long id)
+    async Task<Expense?> IExpensesUpdateOnlyRepository.GetById(User user, long id)
     {
         return await _dbContext.Expenses
             .FirstOrDefaultAsync(e => e.Id == id && e.UserId == user.Id);
@@ -54,7 +49,7 @@ internal class ExpensesRepository : IExpensesReadOnlyRepository, IExpensesWriteO
         _dbContext.Expenses.Update(expense);
     }
 
-    public async Task<List<Expense>> FilterByDates(DateOnly date1, DateOnly date2)
+    public async Task<List<Expense>> FilterByDates(User user,DateOnly date1, DateOnly date2)
     {
         var startDate = new DateTime(year: date1.Year, month: date1.Month, day: date1.Day).Date;
         var endDate = new DateTime(year: date2.Year, month: date2.Month, day: date2.Day, hour: 23, minute: 59, second: 59);
@@ -62,7 +57,7 @@ internal class ExpensesRepository : IExpensesReadOnlyRepository, IExpensesWriteO
         return await _dbContext
             .Expenses
             .AsNoTracking()
-            .Where(expense => expense.Date >= startDate && expense.Date <= endDate)
+            .Where(expense => expense.Date >= startDate && expense.Date <= endDate && expense.UserId == user.Id )
             .OrderBy(expense => expense.Date)
             .ThenBy(expense => expense.Title)
             .ToListAsync();

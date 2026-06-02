@@ -132,7 +132,7 @@ public static class PdfReportConstructor
 
     public static void AddAmountForExpense(Cell cell, decimal amount)
     {
-        cell.AddParagraph($"-{CURRENCY_SYMBOL} {amount.ToString()}");
+        cell.AddParagraph($"-{CURRENCY_SYMBOL} {amount.ToString():f2}");
         cell.Format.Font = new Font
         {
             Name = FontHelper.RALEWAY_REGULAR,
@@ -212,7 +212,7 @@ public static class PdfReportConstructor
         });
         paragraph.AddLineBreak();
 
-        paragraph.AddFormattedText($"{CURRENCY_SYMBOL} {FormatAmount(totalSpent)}", 
+        paragraph.AddFormattedText($"{CURRENCY_SYMBOL} {FormatAmount(totalSpent):f2}", 
             new Font 
             { 
                 Name = FontHelper.WORKSANS_BLACK, 

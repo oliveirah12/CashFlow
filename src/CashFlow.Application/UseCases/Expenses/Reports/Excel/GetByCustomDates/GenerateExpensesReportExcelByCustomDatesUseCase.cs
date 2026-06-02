@@ -1,21 +1,25 @@
 ﻿using CashFlow.Communication.Reports;
 using CashFlow.Domain.Extensions;
 using CashFlow.Domain.Repositories.Expenses;
+using CashFlow.Domain.Services.LoggedUser;
 using ClosedXML.Excel;
 
 namespace CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByCustomDates;
 public class GenerateExpensesReportExcelByCustomDatesUseCase : IGenerateExpensesReportExcelByCustomDatesUseCase
 {
     private readonly IExpensesReadOnlyRepository _repository;
+    private readonly ILoggedUser _loggedUser;
 
-    public GenerateExpensesReportExcelByCustomDatesUseCase(IExpensesReadOnlyRepository repository)
+    public GenerateExpensesReportExcelByCustomDatesUseCase(IExpensesReadOnlyRepository repository, ILoggedUser loggedUser)
     {
         _repository = repository;
+        _loggedUser = loggedUser;
     }
 
     public async Task<byte[]> Execute(DateOnly startDate, DateOnly endDate)
     {
-        var expenses = await _repository.FilterByDates(startDate, endDate);
+        var loggedUser = await _loggedUser.Get();
+        var expenses = await _repository.FilterByDates(loggedUser, startDate, endDate);
         if (expenses.Count == 0)
         {
             return [];
@@ -23,7 +27,7 @@ public class GenerateExpensesReportExcelByCustomDatesUseCase : IGenerateExpenses
 
         using var workbook = new XLWorkbook();
 
-        workbook.Author = "Matheus Oliveira";
+        workbook.Author = loggedUser.Name;
         workbook.Style.Font.FontSize = 12;
         workbook.Style.Font.FontName = "Times New Roman";
 

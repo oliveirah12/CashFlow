@@ -8,15 +8,18 @@ using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using PdfSharp.Fonts;
 using System.Reflection;
+using CashFlow.Domain.Services.LoggedUser;
 
 namespace CashFlow.Application.UseCases.Expenses.Reports.Pdf.GetByMonth;
 
 public class GenerateExpensesReportPdfUseCase : IGenerateExpensesReportPdfUseCase
 {
     private readonly IExpensesReadOnlyRepository _respository;
-    public GenerateExpensesReportPdfUseCase(IExpensesReadOnlyRepository repository)
+    private readonly ILoggedUser _loggedUser;
+    public GenerateExpensesReportPdfUseCase(IExpensesReadOnlyRepository repository, ILoggedUser loggedUser)
     {
         _respository = repository;
+        _loggedUser = loggedUser;
 
         GlobalFontSettings.FontResolver = new ExpensesReportFontResolver();
     }
@@ -28,7 +31,8 @@ public class GenerateExpensesReportPdfUseCase : IGenerateExpensesReportPdfUseCas
 
         var endDate = new DateOnly(year: date.Year, month: date.Month, day: daysInMonth);
 
-        var expenses = await _respository.FilterByDates(startDate, endDate);
+        var loggedUser = await _loggedUser.Get();
+        var expenses = await _respository.FilterByDates(loggedUser, startDate, endDate);
         if (expenses.Count == 0)
         {
             return [];

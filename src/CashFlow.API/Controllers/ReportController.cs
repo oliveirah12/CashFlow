@@ -2,12 +2,15 @@
 using CashFlow.Application.UseCases.Expenses.Reports.Excel.GetByMonth;
 using CashFlow.Application.UseCases.Expenses.Reports.Pdf.GetByCustomDates;
 using CashFlow.Application.UseCases.Expenses.Reports.Pdf.GetByMonth;
+using CashFlow.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
 namespace CashFlow.API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = Roles.ADMIN)]
 public class ReportController : ControllerBase
 {
 
