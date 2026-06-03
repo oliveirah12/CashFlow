@@ -11,10 +11,10 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Users.Register;
 
-public class RegisterUserTest : IClassFixture<CustomWebApplicationFactory>
+public class RegisterUserTest : CashFlowClassFixture
 {
     private const string METHOD = "api/User";
-    private readonly HttpClient _httpClient;
+
     public RegisterUserTest(CustomWebApplicationFactory webApplicationFactory)
     {
         _httpClient = webApplicationFactory.CreateClient();
