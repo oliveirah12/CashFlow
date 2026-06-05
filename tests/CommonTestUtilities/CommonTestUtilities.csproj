@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Cryptography/" />
-    <Folder Include="Entities/" />
     <Folder Include="Mapper/" />
   </ItemGroup>
 
