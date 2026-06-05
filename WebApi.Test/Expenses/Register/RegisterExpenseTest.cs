@@ -8,15 +8,13 @@ using WebApi.Test.InlineData;
 
 namespace WebApi.Test.Expenses.Register;
 
-public class RegisterExpenseTest : IClassFixture<CustomWebApplicationFactory>
+public class RegisterExpenseTest : CashFlowClassFixture
 {
     private const string METHOD = "api/Expenses";
-    private readonly HttpClient _httpClient;
     private readonly string _token;
 
-    public RegisterExpenseTest(CustomWebApplicationFactory factory)
+    public RegisterExpenseTest(CustomWebApplicationFactory factory) : base(factory)
     {
-        _httpClient = factory.CreateClient();
         _token = factory.GetToken();
     }
 
@@ -24,9 +22,12 @@ public class RegisterExpenseTest : IClassFixture<CustomWebApplicationFactory>
     public async Task Success()
     {
         var request = RequestRegisterExpenseJsonBuilder.Build();
-        _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
 
-        var result = await _httpClient.PostAsJsonAsync(METHOD, request);
+        var result = await DoPost(
+            requestUri: METHOD,
+            request: request,
+            token:  _token
+        );
 
         result.StatusCode.ShouldBe(HttpStatusCode.Created);
 
@@ -43,11 +44,14 @@ public class RegisterExpenseTest : IClassFixture<CustomWebApplicationFactory>
     {
         var request = RequestRegisterExpenseJsonBuilder.Build();
         request.Title = string.Empty;
-        
-        _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
-        _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new System.Net.Http.Headers.StringWithQualityHeaderValue(cultureInfo));
 
-        var result = await _httpClient.PostAsJsonAsync(METHOD, request);
+
+        var result = await DoPost(
+            requestUri: METHOD,
+            request: request,
+            culture: cultureInfo,
+            token: _token
+        );
 
         result.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
