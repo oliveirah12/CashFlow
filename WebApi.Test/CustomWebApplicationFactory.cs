@@ -67,6 +67,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     private void AddExpenses(CashFlowDbContext dbContext, User user)
     {
+
+
         var expense = ExpenseBuilder.Build(user);
         dbContext.Expenses.Add(expense);
     }
