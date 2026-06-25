@@ -7,31 +7,45 @@ using CommonTestUtilities.LoggedUser;
 using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
 using Shouldly;
+using System.Net;
+using System.Text.Json;
 
 namespace WebApi.Test.Expenses.GetById;
 
-public class GetExpenseByIdTest
+public class GetExpenseByIdTest : CashFlowClassFixture
 {
     private const string METHOD = "api/Expenses";
 
+    private readonly string _token;
+    private readonly long _expenseId;
+
+    public GetExpenseByIdTest(CustomWebApplicationFactory customWebApplicationFactory) : base(customWebApplicationFactory)
+    {
+        _token =  customWebApplicationFactory.User_Team_Member.GetToken();
+        _expenseId = customWebApplicationFactory.Expense.GetId();
+        
+    }
 
     [Fact]
     public async Task Success()
     {
-        var loggedUser = UserBuilder.Build();
-        var expense = ExpenseBuilder.Build(user: loggedUser);
+        var result = await DoGet(requestUri: $"{METHOD}/{_expenseId}", token: _token);
 
-        var useCase = CreateUseCase(loggedUser, expense);
+        result.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-        var result = await useCase.Execute(expense.Id);
+        var body = await result.Content.ReadAsStreamAsync();
 
-        result.ShouldNotBeNull();
-        result.Id.ShouldBe(expense.Id);
-        result.Title.ShouldBe(expense.Title);
-        result.Description.ShouldBe(expense.Description);
-        result.Date.ShouldBe(expense.Date);
-        result.Amount.ShouldBe(expense.Amount);
-        result.PaymentType.ShouldBe((PaymentType)expense.PaymentType);
+        var response =  await JsonDocument.ParseAsync(body);
+
+        response.RootElement.GetProperty("id").GetInt64().ShouldBe(_expenseId);
+        response.RootElement.GetProperty("title").GetString().ShouldNotBeNullOrWhiteSpace();
+        response.RootElement.GetProperty("description").GetString().ShouldNotBeNullOrWhiteSpace();
+        response.RootElement.GetProperty("date").GetDateTime().ShouldBeLessThanOrEqualTo(DateTime.Today);
+        response.RootElement.GetProperty("amount").GetDecimal().ShouldBeGreaterThan(0);
+
+        var paymentType = response.RootElement.GetProperty("paymentType").GetInt32();
+        Enum.IsDefined(typeof(PaymentType), paymentType).ShouldBeTrue() ;
+    
     }
 
     [Fact]
