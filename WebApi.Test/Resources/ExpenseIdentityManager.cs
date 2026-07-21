@@ -1,18 +1,17 @@
 ﻿using CashFlow.Domain.Entities;
 
-namespace WebApi.Test.Resources
+namespace WebApi.Test.Resources;
+
+public class ExpenseIdentityManager
 {
-    public class ExpenseIdentityManager
+
+    private readonly Expense _expense;
+
+    public ExpenseIdentityManager(Expense expense)
     {
-
-        private readonly Expense _expense;
-
-        public ExpenseIdentityManager(Expense expense)
-        {
-            _expense = expense;
-        }
-
-        public long GetId() => _expense.Id;
-
+        _expense = expense;
     }
+
+    public long GetId() => _expense.Id;
+
 }
