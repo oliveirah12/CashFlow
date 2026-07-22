@@ -36,8 +36,8 @@ public class ReportController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetExcelCustomDates(
     [FromServices] IGenerateExpensesReportExcelByCustomDatesUseCase useCase,
-    [FromHeader] DateOnly startDate,
-    [FromHeader] DateOnly endDate)
+    [FromQuery] DateOnly startDate,
+    [FromQuery] DateOnly endDate)
     {
         byte[] file = await useCase.Execute(startDate, endDate);
 
@@ -54,7 +54,7 @@ public class ReportController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetPdf(
         [FromServices] IGenerateExpensesReportPdfUseCase useCase,
-        [FromHeader] DateOnly month)
+        [FromQuery] DateOnly month)
     {
         byte[] file = await useCase.Execute(month);
         if (file.Length > 0)
@@ -69,8 +69,8 @@ public class ReportController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetPdfByCustomDates(
     [FromServices] IGenerateExpensesReportPdfByCustomDatesUseCase useCase,
-    [FromHeader] DateOnly startDate,
-    [FromHeader] DateOnly endDate)
+    [FromQuery] DateOnly startDate,
+    [FromQuery] DateOnly endDate)
     {
         byte[] file = await useCase.Execute(startDate, endDate);
         if (file.Length > 0)

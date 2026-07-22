@@ -1,6 +1,7 @@
 ﻿using CashFlow.Domain.Entities;
 using CashFlow.Domain.Repositories.Expenses;
 using Moq;
+using PdfSharp.Drawing;
 
 namespace CommonTestUtilities.Repositories;
 
@@ -24,6 +25,13 @@ public class ExpensesReadOnlyRepositoryBuilder
     {
         if(expense is not null)
             _repository.Setup(r => r.GetById(user, expense.Id)).ReturnsAsync(expense);
+
+        return this;
+    }
+
+    public ExpensesReadOnlyRepositoryBuilder FilterByMonth(User user, List<Expense> expenses)
+    {
+        _repository.Setup(r => r.FilterByDates(user, It.IsAny<DateOnly>(), It.IsAny<DateOnly>())).ReturnsAsync(expenses);
 
         return this;
     }
