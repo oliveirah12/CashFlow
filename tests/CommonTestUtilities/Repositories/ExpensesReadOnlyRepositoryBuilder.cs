@@ -29,7 +29,7 @@ public class ExpensesReadOnlyRepositoryBuilder
         return this;
     }
 
-    public ExpensesReadOnlyRepositoryBuilder FilterByMonth(User user, List<Expense> expenses)
+    public ExpensesReadOnlyRepositoryBuilder FilterByDates(User user, List<Expense> expenses)
     {
         _repository.Setup(r => r.FilterByDates(user, It.IsAny<DateOnly>(), It.IsAny<DateOnly>())).ReturnsAsync(expenses);
 
